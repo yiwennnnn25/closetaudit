@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YSL · Closet Audit</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Closet Audit">
+<meta name="theme-color" content="#FBF7F3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.1/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --cream:#FBF7F3;--cream-2:#F5EFE8;--blush:#F0DDD3;
+  --blush-soft:rgba(232,213,204,0.55);--rose:#C5A597;--rose-deep:#B58F82;
+  --mauve:#9A7D8B;--mauve-deep:#7A5D6C;--slate:#7A6E6F;--slate-soft:#A89B9C;
+  --deep:#2A2320;--deep-2:#181311;--soft-white:#FDFBF9;--pearl:#FFFEFB;
+  --sage:#A8B5A0;--champagne:#C9A88C;
+  --border:rgba(155,123,138,0.14);--border-strong:rgba(155,123,138,0.22);
+  --shadow:0 2px 14px rgba(44,36,32,0.05);
+  --shadow-md:0 1px 2px rgba(44,36,32,0.04),0 12px 32px rgba(155,123,138,0.10);
+  --shadow-lg:0 2px 4px rgba(44,36,32,0.05),0 28px 64px rgba(155,123,138,0.16);
+  --shadow-cta:0 1px 0 rgba(255,255,255,0.10) inset,0 -1px 0 rgba(0,0,0,0.18) inset,0 16px 40px rgba(44,36,32,0.28),0 4px 12px rgba(155,123,138,0.20);
+  --glow-focus:0 0 0 5px rgba(155,123,138,0.08);
+  --glass:rgba(253,251,249,0.72);--glass-strong:rgba(253,251,249,0.88);
+  --keep:#4f6048;--keep-bg:rgba(168,181,160,0.18);--keep-border:rgba(168,181,160,0.35);
+  --trim:#7C5416;--trim-bg:rgba(214,181,130,0.20);--trim-border:rgba(214,181,130,0.40);
+  --toss:#7A2730;--toss-bg:rgba(218,160,164,0.18);--toss-border:rgba(218,160,164,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;}
+body{
+  font-family:'DM Sans',sans-serif;color:var(--deep);font-size:14px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;letter-spacing:0.005em;
+  background:
+    radial-gradient(820px 620px at 92% -8%,rgba(232,213,204,0.60),transparent 60%),
+    radial-gradient(720px 700px at -10% 38%,rgba(196,184,210,0.32),transparent 60%),
+    radial-gradient(640px 480px at 55% 112%,rgba(255,232,222,0.55),transparent 60%),
+    var(--cream);
+  background-attachment:fixed;
+  position:relative;
+}
+/* Signature visual — flowing silk light, diagonal streaks */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 55% 30%,rgba(218,195,168,0.18),transparent 65%),
+    radial-gradient(ellipse 50% 70% at 20% 70%,rgba(232,213,204,0.14),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 55%,rgba(240,228,210,0.12),transparent 55%);
+}
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900' viewBox='0 0 900 900'%3E%3Cdefs%3E%3ClinearGradient id='a' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fff' stop-opacity='0'/%3E%3Cstop offset='30%25' stop-color='%23fff' stop-opacity='0.6'/%3E%3Cstop offset='50%25' stop-color='%23fff' stop-opacity='0'/%3E%3Cstop offset='70%25' stop-color='%23fff' stop-opacity='0.4'/%3E%3Cstop offset='100%25' stop-color='%23fff' stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' x1='0%25' y1='20%25' x2='80%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fff' stop-opacity='0'/%3E%3Cstop offset='40%25' stop-color='%23fff' stop-opacity='0.5'/%3E%3Cstop offset='60%25' stop-color='%23fff' stop-opacity='0'/%3E%3Cstop offset='85%25' stop-color='%23fff' stop-opacity='0.3'/%3E%3Cstop offset='100%25' stop-color='%23fff' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='900' height='900' fill='none'/%3E%3Cpath d='M-100 250 Q200 180 450 350 Q700 520 1000 380' stroke='url(%23a)' stroke-width='180' fill='none' opacity='0.7'/%3E%3Cpath d='M-50 500 Q250 350 500 550 Q750 750 1050 500' stroke='url(%23b)' stroke-width='150' fill='none' opacity='0.5'/%3E%3Cpath d='M100 -50 Q350 200 550 100 Q800 -20 950 250' stroke='url(%23a)' stroke-width='120' fill='none' opacity='0.4'/%3E%3Cpath d='M-80 700 Q200 600 400 750 Q650 900 950 700' stroke='url(%23b)' stroke-width='100' fill='none' opacity='0.35'/%3E%3C/svg%3E");
+  background-size:cover;background-position:center;
+}
+header,.container,#setup-overlay,.sheet,.toast{position:relative;z-index:1;}
+
+/* ── Setup overlay ── */
+#setup-overlay{position:fixed;inset:0;background:rgba(44,36,32,0.50);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;}
+#setup-overlay.hidden{display:none;}
+.setup-card{background:var(--glass-strong);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.6);border-radius:22px;padding:32px 28px;max-width:460px;width:100%;box-shadow:var(--shadow-lg);}
+.setup-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;margin-bottom:6px;letter-spacing:0.01em;}
+.setup-sub{font-size:12px;color:var(--slate);margin-bottom:20px;line-height:1.7;}
+.setup-field{margin-bottom:14px;}
+.setup-field label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);font-weight:500;display:block;margin-bottom:7px;}
+.setup-field input{width:100%;padding:12px 14px;border:1px solid var(--border-strong);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--pearl);outline:none;transition:border-color 0.25s,box-shadow 0.25s;}
+.setup-field input:focus{border-color:var(--mauve);box-shadow:var(--glow-focus);}
+.setup-hint{font-size:10px;color:var(--slate-soft);margin-top:5px;font-style:italic;}
+.setup-btn{width:100%;padding:14px;background:linear-gradient(180deg,var(--deep) 0%,var(--deep-2) 100%);color:var(--cream);border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:0.08em;cursor:pointer;margin-top:6px;transition:transform 0.2s,box-shadow 0.25s;box-shadow:var(--shadow-cta);}
+.setup-btn:hover{transform:translateY(-1px);}
+.setup-skip{text-align:center;margin-top:12px;font-size:11px;color:var(--slate);}
+.setup-skip a{color:var(--mauve);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.setup-schema{background:var(--cream-2);border-radius:11px;padding:11px 13px;margin-top:16px;font-size:11px;color:var(--slate);}
+.setup-schema summary{cursor:pointer;color:var(--mauve);font-weight:500;margin-bottom:5px;}
+.setup-schema pre{font-size:10px;overflow-x:auto;white-space:pre-wrap;line-height:1.5;}
+
+/* ── Header ── */
+header{
+  background:linear-gradient(180deg,rgba(253,251,249,0.85),rgba(253,251,249,0.65));
+  backdrop-filter:saturate(140%) blur(18px);-webkit-backdrop-filter:saturate(140%) blur(18px);
+  border-bottom:1px solid rgba(155,123,138,0.10);
+  padding:16px 28px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#DDD0E8,#C9B8D8);box-shadow:0 4px 14px rgba(180,155,200,0.35),inset 0 0 0 1px rgba(255,255,255,0.6);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(90,60,100,0.7);}
+.brand-wordmark{line-height:1;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.22em;display:flex;align-items:baseline;gap:6px;}
+.logo-sep{color:var(--rose-deep);font-style:italic;}
+.logo-sub{font-size:12px;letter-spacing:0.06em;color:var(--slate-soft);font-style:italic;}
+.tagline{font-size:9px;color:var(--slate-soft);letter-spacing:0.30em;text-transform:uppercase;margin-top:1px;}
+@media(max-width:520px){.tagline{display:none;}}
+
+/* ── Container ── */
+.container{max-width:660px;margin:0 auto;padding:28px 24px 120px;}
+
+/* ── Tabs ── */
+.tabs{display:flex;gap:2px;position:relative;background:rgba(232,213,204,0.38);border:1px solid rgba(255,255,255,0.50);border-radius:16px;padding:5px;margin-bottom:8px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(155,123,138,0.08);}
+.tab-slider{position:absolute;top:5px;left:5px;height:calc(100% - 10px);border-radius:11px;background:linear-gradient(180deg,var(--pearl),rgba(253,251,249,0.92));box-shadow:0 1px 0 rgba(255,255,255,0.9) inset,0 6px 20px rgba(44,36,32,0.10),0 1px 4px rgba(44,36,32,0.06);transition:transform 0.42s cubic-bezier(.2,.7,.2,1),width 0.42s cubic-bezier(.2,.7,.2,1);z-index:0;}
+.tab{flex:1;min-width:80px;padding:13px 10px;border:none;background:transparent;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;color:var(--slate);cursor:pointer;transition:color 0.35s ease;letter-spacing:0.24em;text-transform:uppercase;white-space:nowrap;position:relative;z-index:1;}
+.tab:hover:not(.active){color:var(--mauve-deep);}
+.tab.active{color:var(--deep);}
+.tab-count{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:13px;letter-spacing:0;margin-left:3px;opacity:0.5;text-transform:none;}
+.tab-badge{position:absolute;top:7px;right:10px;min-width:15px;height:15px;border-radius:8px;background:var(--trim);color:white;font-size:8.5px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;letter-spacing:0;}
+.panel{display:none;}
+.panel.active{display:block;animation:fadeUp 0.4s cubic-bezier(.2,.7,.2,1);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── Hero ── */
+.hero{text-align:center;padding:36px 16px 28px;}
+.hero-eyebrow{font-size:9.5px;letter-spacing:0.42em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:16px;opacity:0.85;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;letter-spacing:0.03em;line-height:1.10;color:var(--deep);}
+@media(max-width:560px){.hero-title{font-size:32px;}.hero{padding:28px 12px 22px;}}
+
+/* ── Section labels ── */
+.slabel{font-size:9px;letter-spacing:0.36em;text-transform:uppercase;color:var(--slate-soft);font-weight:500;margin-bottom:14px;margin-top:26px;opacity:0.75;}
+.slabel:first-child{margin-top:0;}
+
+/* ── Card ── */
+.card{background:var(--glass-strong);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(155,123,138,0.10);border-radius:18px;padding:20px;margin-bottom:14px;box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,var(--shadow-md);}
+
+/* ── Inputs ── */
+input,select,textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:12px 14px;border:1px solid rgba(155,123,138,0.18);border-radius:12px;background:rgba(255,254,251,0.6);color:var(--deep);transition:border-color 0.25s,box-shadow 0.3s,background 0.25s;outline:none;width:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,0.7);}
+input::placeholder,textarea::placeholder{color:var(--slate-soft);font-weight:300;}
+input:focus,select:focus,textarea:focus{border-color:var(--mauve);background:var(--pearl);box-shadow:var(--glow-focus),inset 0 1px 0 rgba(255,255,255,0.7);}
+label{font-size:9.5px;font-weight:500;color:var(--slate);letter-spacing:0.22em;text-transform:uppercase;}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+textarea{resize:vertical;min-height:72px;font-size:13px;}
+
+/* ── Upload zone — the centerpiece ── */
+.uz{
+  border:1px solid rgba(201,168,140,0.30);border-radius:24px;padding:60px 36px;text-align:center;cursor:pointer;
+  transition:transform 0.45s cubic-bezier(.2,.7,.2,1),box-shadow 0.45s cubic-bezier(.2,.7,.2,1),border-color 0.45s;
+  position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 15%,rgba(255,238,215,0.85),transparent 65%),
+    radial-gradient(ellipse 60% 60% at 50% 80%,rgba(245,235,222,0.50),transparent 55%),
+    linear-gradient(168deg,rgba(253,249,243,0.95) 0%,rgba(248,238,224,0.80) 40%,rgba(243,228,212,0.65) 100%);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.90) inset,
+    0 -1px 0 rgba(201,168,140,0.08) inset,
+    0 30px 60px rgba(155,123,138,0.14),
+    0 8px 20px rgba(44,36,32,0.06);
+}
+.uz::before{content:'';position:absolute;top:-40%;left:30%;width:100%;height:90%;background:radial-gradient(ellipse at center,rgba(255,242,220,0.70),transparent 60%);pointer-events:none;transition:opacity 0.45s;opacity:1;}
+.uz::after{content:'';position:absolute;inset:0;border-radius:24px;box-shadow:0 0 0 1px rgba(255,255,255,0.5) inset;pointer-events:none;}
+.uz:hover,.uz.drag{transform:translateY(-3px);border-color:rgba(201,168,140,0.55);box-shadow:0 1px 0 rgba(255,255,255,0.95) inset,0 40px 80px rgba(155,123,138,0.20),0 12px 28px rgba(44,36,32,0.08);}
+.uz:hover::before,.uz.drag::before{opacity:1;}
+.uz-icon{font-size:30px;margin-bottom:20px;line-height:1;color:var(--rose-deep);opacity:0.75;font-family:'Cormorant Garamond',serif;}
+.uz-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;letter-spacing:0.04em;color:var(--deep);margin-bottom:10px;line-height:1.15;}
+.uz-begin{font-size:11px;letter-spacing:0.20em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:14px;opacity:0.85;}
+.uz-verbs{font-size:9.5px;letter-spacing:0.30em;text-transform:uppercase;color:var(--champagne);margin-bottom:18px;opacity:0.80;}
+.uz-sub{font-size:12px;color:var(--slate);letter-spacing:0.04em;line-height:1.6;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px;}
+#file-input{display:none;}
+
+/* ── Preview ── */
+.preview-wrap{position:relative;margin-bottom:18px;}
+.preview-img{width:100%;max-height:340px;object-fit:contain;border-radius:14px;border:1px solid rgba(155,123,138,0.12);box-shadow:var(--shadow-md);}
+.preview-clear{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(44,36,32,0.65);border:1px solid rgba(255,255,255,0.2);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background 0.2s;}
+.preview-clear:hover{background:rgba(44,36,32,0.85);}
+
+/* ── Context — a note to your stylist ── */
+.context-toggle{display:none;}
+.ctx-prompt{margin-bottom:14px;}
+.ctx-prompt-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--deep);letter-spacing:0.02em;margin-bottom:5px;}
+.ctx-prompt-sub{font-size:12px;color:var(--slate-soft);letter-spacing:0.02em;font-style:italic;}
+#context-form{display:block;margin-bottom:0;}
+#ctx-note{min-height:88px;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;line-height:1.6;padding:16px 18px;border-radius:14px;background:linear-gradient(165deg,rgba(253,251,249,0.85),rgba(245,239,232,0.55));border:1px solid rgba(155,123,138,0.16);}
+#ctx-note::placeholder{color:var(--slate-soft);font-style:italic;}
+/* metadata fields — revealed after upload */
+.ctx-meta{display:none;margin-top:14px;animation:fadeUp 0.5s cubic-bezier(.2,.7,.2,1);}
+.ctx-meta.show{display:block;}
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+@media(max-width:500px){.ctx-grid{grid-template-columns:1fr;}}
+
+/* ── Buttons ── */
+.btn-p{position:relative;padding:19px 24px;margin-top:8px;background:linear-gradient(180deg,#42342d 0%,var(--deep) 50%,var(--deep-2) 100%);color:var(--cream);border:none;border-radius:15px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:0.22em;cursor:pointer;transition:transform 0.4s cubic-bezier(.2,.7,.2,1),box-shadow 0.4s;width:100%;box-shadow:var(--shadow-cta);overflow:hidden;isolation:isolate;}
+.btn-p::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 50% -10%,rgba(255,222,206,0.22),transparent 60%),radial-gradient(120% 80% at 50% 110%,rgba(155,123,138,0.30),transparent 60%);pointer-events:none;z-index:0;}
+.btn-p::after{content:'';position:absolute;top:0;left:-40%;width:30%;height:100%;background:linear-gradient(110deg,transparent 0%,rgba(255,236,222,0.18) 50%,transparent 100%);transform:skewX(-18deg);transition:left 0.9s cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:1;}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 22px 50px rgba(44,36,32,0.28),0 8px 18px rgba(155,123,138,0.25),inset 0 1px 0 rgba(255,255,255,0.12);}
+.btn-p:hover::after{left:130%;}
+.btn-p:active{transform:translateY(0);}
+.btn-p:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+.btn-p .bt{position:relative;z-index:2;display:inline-flex;align-items:center;gap:14px;justify-content:center;}
+.btn-p .bt-mark{font-style:italic;font-size:14px;letter-spacing:0;opacity:0.6;color:var(--rose);}
+.btn-s{padding:10px 16px;background:rgba(232,213,204,0.55);color:var(--deep);border:1px solid rgba(255,255,255,0.5);border-radius:11px;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;letter-spacing:0.04em;}
+.btn-s:hover{background:var(--rose);color:white;border-color:var(--rose);}
+.btn-g{padding:7px 12px;background:rgba(253,251,249,0.6);border:1px solid var(--border-strong);border-radius:9px;font-size:11px;color:var(--mauve);cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;letter-spacing:0.05em;}
+.btn-g:hover{background:var(--pearl);border-color:var(--mauve);}
+.btn-toss{padding:7px 12px;background:var(--toss-bg);border:1px solid var(--toss-border);border-radius:9px;font-size:11px;color:var(--toss);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;letter-spacing:0.05em;}
+.btn-toss:hover{background:rgba(218,160,164,0.35);}
+.li{display:none;width:16px;height:16px;border:2px solid rgba(253,251,249,0.30);border-top-color:var(--cream);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto;}
+.loading .bt{display:none;}.loading .li{display:block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Verdict card ── */
+#result-wrap{display:none;animation:fadeUp 0.5s cubic-bezier(.2,.7,.2,1);}
+.verdict-card{border-radius:20px;padding:22px;margin-bottom:14px;border:1.5px solid;position:relative;overflow:hidden;}
+.verdict-card.keep{background:var(--keep-bg);border-color:var(--keep-border);}
+.verdict-card.trim{background:var(--trim-bg);border-color:var(--trim-border);}
+.verdict-card.toss{background:var(--toss-bg);border-color:var(--toss-border);}
+.verdict-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 13px;border-radius:20px;font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:12px;border:1px solid;}
+.verdict-badge.keep{background:rgba(168,181,160,0.28);color:var(--keep);border-color:var(--keep-border);}
+.verdict-badge.trim{background:rgba(214,181,130,0.28);color:var(--trim);border-color:var(--trim-border);}
+.verdict-badge.toss{background:rgba(218,160,164,0.28);color:var(--toss);border-color:var(--toss-border);}
+.verdict-icon{font-size:15px;}
+.verdict-headline{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.01em;margin-bottom:7px;line-height:1.3;}
+.verdict-reason{font-size:13px;color:var(--slate);line-height:1.7;margin-bottom:14px;}
+.score-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
+.score-pill{padding:5px 12px;border-radius:20px;background:rgba(253,251,249,0.75);border:1px solid rgba(155,123,138,0.14);font-size:11px;display:flex;gap:6px;align-items:center;}
+.score-pill .sp-label{color:var(--slate);letter-spacing:0.08em;text-transform:uppercase;font-size:10px;}
+.score-pill .sp-val{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--deep);}
+
+/* ── Styling section ── */
+.styling-section{margin-top:6px;}
+.styling-title{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--mauve);font-weight:500;margin-bottom:10px;}
+.styling-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:500px){.styling-grid{grid-template-columns:1fr;}}
+.style-block{background:rgba(253,251,249,0.75);border:1px solid rgba(155,123,138,0.10);border-radius:12px;padding:13px;}
+.style-block-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--slate-soft);margin-bottom:5px;}
+.style-block-content{font-size:12.5px;color:var(--deep);line-height:1.65;}
+.occasions-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.occ-tag{padding:4px 10px;border-radius:12px;font-size:11px;background:rgba(201,168,154,0.18);color:var(--rose-deep);border:1px solid rgba(201,168,154,0.30);}
+
+/* ── Reason field ── */
+.reason-field-wrap{background:var(--glass-strong);border:1px solid rgba(155,123,138,0.12);border-radius:16px;padding:18px;margin-top:4px;}
+.reason-field-wrap .rf-title{font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--slate);font-weight:500;margin-bottom:10px;}
+
+/* ── Result actions ── */
+.result-actions{display:flex;gap:10px;margin-top:14px;}
+.result-actions .btn-p{font-size:16px;padding:15px;}
+.result-actions .btn-s{flex-shrink:0;align-self:stretch;display:flex;align-items:center;}
+
+/* ── Chat / Conversation ── */
+.chat-section{animation:fadeUp 0.5s cubic-bezier(.2,.7,.2,1);}
+.chat-intro{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;font-style:italic;color:var(--slate);margin-bottom:18px;line-height:1.6;}
+.chat-thread{display:flex;flex-direction:column;gap:16px;margin-bottom:18px;}
+.chat-msg{max-width:88%;line-height:1.65;animation:fadeUp 0.4s cubic-bezier(.2,.7,.2,1);}
+.chat-msg.user{align-self:flex-end;text-align:right;}
+.chat-msg.stylist{align-self:flex-start;}
+.chat-msg-inner{padding:14px 18px;border-radius:16px;font-size:13px;}
+.chat-msg.user .chat-msg-inner{background:linear-gradient(165deg,rgba(245,239,232,0.80),rgba(240,228,218,0.60));border:1px solid rgba(201,168,140,0.25);color:var(--deep);border-bottom-right-radius:4px;}
+.chat-msg.stylist .chat-msg-inner{background:var(--glass-strong);border:1px solid rgba(155,123,138,0.12);color:var(--deep);border-bottom-left-radius:4px;box-shadow:0 2px 12px rgba(155,123,138,0.08);}
+.chat-msg-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--slate-soft);margin-bottom:5px;font-weight:500;}
+.chat-msg.stylist .chat-msg-inner p{margin:0 0 8px;}.chat-msg.stylist .chat-msg-inner p:last-child{margin:0;}
+/* Revised verdict inline */
+.chat-revised{margin-top:10px;padding:10px 14px;border-radius:12px;border:1px solid;font-size:12px;display:inline-flex;align-items:center;gap:8px;font-weight:500;letter-spacing:0.10em;text-transform:uppercase;}
+.chat-revised.keep{background:var(--keep-bg);border-color:var(--keep-border);color:var(--keep);}
+.chat-revised.trim{background:var(--trim-bg);border-color:var(--trim-border);color:var(--trim);}
+.chat-revised.toss{background:var(--toss-bg);border-color:var(--toss-border);color:var(--toss);}
+/* Typing indicator */
+.chat-typing{align-self:flex-start;padding:14px 20px;}
+.typing-dots{display:flex;gap:5px;align-items:center;}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--slate-soft);animation:typeBounce 1.2s infinite ease-in-out;}
+.typing-dots span:nth-child(2){animation-delay:0.15s;}
+.typing-dots span:nth-child(3){animation-delay:0.30s;}
+@keyframes typeBounce{0%,80%,100%{transform:translateY(0);opacity:0.4;}40%{transform:translateY(-5px);opacity:1;}}
+/* Input */
+.chat-input-wrap{display:flex;gap:10px;align-items:flex-end;}
+.chat-input{flex:1;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;line-height:1.5;padding:14px 16px;border-radius:14px;background:linear-gradient(165deg,rgba(253,251,249,0.85),rgba(245,239,232,0.55));border:1px solid rgba(155,123,138,0.16);resize:none;overflow-y:auto;max-height:120px;transition:border-color 0.35s,box-shadow 0.35s;}
+.chat-input::placeholder{color:var(--slate-soft);}
+.chat-input:focus{border-color:var(--mauve);box-shadow:var(--glow-focus);}
+.chat-send{width:44px;height:44px;border-radius:12px;background:linear-gradient(180deg,#42342d,var(--deep));color:var(--cream);border:none;font-size:16px;cursor:pointer;transition:transform 0.3s cubic-bezier(.2,.7,.2,1),box-shadow 0.3s;box-shadow:0 4px 14px rgba(44,36,32,0.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Cormorant Garamond',serif;}
+.chat-send:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(44,36,32,0.28);}
+.chat-send:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+
+/* ── Pills filter ── */
+.pill-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px;}
+.pill{padding:7px 15px;border-radius:20px;font-size:11px;font-weight:500;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;border:1px solid var(--border-strong);background:rgba(253,251,249,0.6);color:var(--slate);}
+.pill:hover{border-color:var(--mauve);color:var(--mauve-deep);}
+.pill.active{background:var(--deep);color:var(--cream);border-color:var(--deep);box-shadow:0 4px 12px rgba(44,36,32,0.18);}
+
+/* ── Gaps insight ── */
+.gaps-insight{background:linear-gradient(135deg,rgba(232,213,204,0.50),rgba(196,184,210,0.30));border:1px solid rgba(155,123,138,0.18);border-radius:18px;padding:20px;margin-bottom:24px;position:relative;overflow:hidden;}
+.gaps-insight::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(180,155,200,0.25),transparent 70%);}
+.gi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.gi-label{font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--mauve);font-weight:500;}
+.gi-refresh{font-size:10px;color:var(--slate-soft);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.gi-content{font-size:13px;color:var(--deep);line-height:1.75;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;}
+.gi-loading{font-size:12px;color:var(--slate-soft);font-style:italic;}
+
+/* ── Keeps / Watchlist ── */
+.list-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;gap:14px;}
+.list-head h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;letter-spacing:0.01em;line-height:1;}
+.list-head .sub{font-size:11px;color:var(--slate);margin-top:5px;}
+.empty-state{text-align:center;padding:48px 24px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px dashed rgba(155,123,138,0.30);border-radius:18px;}
+.empty-mark{width:44px;height:44px;border-radius:13px;margin:0 auto 12px;background:linear-gradient(135deg,#DDD0E8,#C9B8D8);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(180,155,200,0.22),inset 0 1px 0 rgba(255,255,255,0.8);font-family:'Cormorant Garamond',serif;font-size:20px;color:rgba(90,60,100,0.65);font-style:italic;}
+.empty-state p{font-size:13px;color:var(--slate);font-style:italic;line-height:1.65;max-width:280px;margin:0 auto;}
+.items-list{display:flex;flex-direction:column;gap:10px;}
+
+/* ── Item card ── */
+.item-card{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;padding:15px 17px;background:var(--glass-strong);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(155,123,138,0.10);border-radius:16px;box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,var(--shadow-md);transition:transform 0.25s cubic-bezier(.2,.7,.2,1),box-shadow 0.25s;cursor:pointer;}
+.item-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.item-thumb{width:52px;height:52px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(44,36,32,0.08);flex-shrink:0;}
+.item-thumb-ph{width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,#DDD0E8,#C9B8D8);border:1px solid rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.item-body{min-width:0;}
+.item-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.item-meta{font-size:11px;color:var(--slate);display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.item-meta .dot{opacity:0.4;}
+.item-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+
+/* ── Watchlist specifics ── */
+.watchlist-reason{font-size:11.5px;color:var(--trim);font-style:italic;margin-top:3px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.watchlist-date{font-size:10px;color:var(--slate-soft);}
+.days-badge{font-size:10px;padding:3px 9px;border-radius:10px;font-weight:500;background:var(--trim-bg);color:var(--trim);border:1px solid var(--trim-border);}
+.days-badge.urgent{background:var(--toss-bg);color:var(--toss);border-color:var(--toss-border);}
+
+/* ── Stats bar ── */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr 1fr;}}
+.stat-tile{border-radius:15px;padding:16px 12px;text-align:center;background:var(--glass-strong);border:1px solid rgba(155,123,138,0.10);box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,var(--shadow-md);}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;letter-spacing:0.01em;}
+.stat-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-top:3px;}
+.stat-tile.keep-tile .stat-val{color:var(--keep);}
+.stat-tile.trim-tile .stat-val{color:var(--trim);}
+.stat-tile.toss-tile .stat-val{color:var(--toss);}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--deep);color:white;padding:10px 22px;border-radius:22px;font-size:12px;opacity:0;transition:all 0.3s;z-index:400;pointer-events:none;letter-spacing:0.04em;box-shadow:0 12px 30px rgba(44,36,32,0.25);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── Sheet ── */
+.sheet{position:fixed;inset:0;z-index:250;background:rgba(44,36,32,0.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;justify-content:center;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity 0.3s cubic-bezier(.2,.7,.2,1);}
+.sheet.open{opacity:1;pointer-events:auto;}
+.sheet-inner{width:100%;max-width:780px;max-height:92vh;background:radial-gradient(820px 620px at 92% -8%,rgba(232,213,204,0.60),transparent 60%),radial-gradient(720px 700px at -10% 38%,rgba(196,184,210,0.32),transparent 60%),var(--cream);border-top-left-radius:28px;border-top-right-radius:28px;box-shadow:0 -24px 60px rgba(44,36,32,0.25);overflow-y:auto;transform:translateY(40px);transition:transform 0.35s cubic-bezier(.2,.7,.2,1);}
+.sheet.open .sheet-inner{transform:translateY(0);}
+@media(min-width:720px){.sheet{align-items:center;padding:30px;}.sheet-inner{max-height:92vh;border-radius:24px;transform:translateY(20px) scale(0.98);}.sheet.open .sheet-inner{transform:translateY(0) scale(1);}}
+.sheet-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:14px 26px;background:linear-gradient(180deg,rgba(253,251,249,0.92),rgba(253,251,249,0.78));backdrop-filter:saturate(140%) blur(16px);-webkit-backdrop-filter:saturate(140%) blur(16px);border-bottom:1px solid rgba(155,123,138,0.10);}
+.sheet-handle{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:3px;border-radius:3px;background:rgba(155,123,138,0.25);}
+@media(min-width:720px){.sheet-handle{display:none;}}
+.sheet-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;letter-spacing:0.06em;color:var(--deep);text-transform:uppercase;}
+.sheet-close{width:32px;height:32px;border-radius:50%;background:rgba(253,251,249,0.85);border:1px solid var(--border-strong);color:var(--slate);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all 0.2s;}
+.sheet-close:hover{color:var(--mauve);border-color:var(--mauve);}
+.sheet-body{padding:26px 26px 80px;}
+</style>
+</head>
+<body>
+
+<!-- Setup overlay -->
+<div id="setup-overlay">
+  <div class="setup-card">
+    <div class="setup-title">Connect your wardrobe</div>
+    <div class="setup-sub">On Netlify, audits run through the secure proxy — leave the key blank. On GitHub Pages (no functions), paste your API key; it stays in this browser only.</div>
+    <div style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate-soft);margin-bottom:12px;font-weight:500;">API key (GitHub Pages mode only)</div>
+    <div class="setup-field">
+      <label>Anthropic API Key</label>
+      <input type="password" id="api-key" placeholder="sk-ant-... (leave blank on Netlify)">
+      <div class="setup-hint">Saved on this device only — never in the repo. Clear it once you're back on Netlify.</div>
+    </div>
+    <div style="height:1px;background:rgba(155,123,138,0.12);margin:18px 0 16px;"></div>
+    <div style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate-soft);margin-bottom:12px;font-weight:500;">Cloud sync (optional)</div>
+    <div class="setup-field">
+      <label>Supabase URL</label>
+      <input type="text" id="sb-url" placeholder="https://xxxx.supabase.co">
+    </div>
+    <div class="setup-field">
+      <label>Anon Key</label>
+      <input type="text" id="sb-key" placeholder="sb_publishable_...">
+      <div class="setup-hint">Needs <code>keeps</code> and <code>watchlist</code> tables. See schema below.</div>
+    </div>
+    <button class="setup-btn" onclick="saveSetup()">Connect</button>
+    <div class="setup-skip"><a onclick="skipSetup()">Skip — keep everything on this device</a></div>
+    <details class="setup-schema">
+      <summary>SQL schema</summary>
+      <pre>create table keeps (
+  id uuid primary key default gen_random_uuid(),
+  name text, category text, verdict text,
+  score int, condition_score int, colour_score int, aesthetic_score int,
+  headline text, reason text, pairings text, occasions_list text,
+  image_b64 text, created_at timestamptz default now()
+);
+
+create table watchlist (
+  id uuid primary key default gen_random_uuid(),
+  name text, category text, verdict text,
+  score int, condition_score int, colour_score int, aesthetic_score int,
+  headline text, reason text, user_reason text,
+  image_b64 text, created_at timestamptz default now()
+);</pre>
+    </details>
+  </div>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="brand">
+    <div class="brand-mark">c</div>
+    <div class="brand-wordmark">
+      <div class="logo">YSL <span class="logo-sep">·</span> <span class="logo-sub">Closet Audit</span></div>
+      <div class="tagline">Your wardrobe, refined</div>
+    </div>
+  </div>
+  <button class="hdr-btn" onclick="document.getElementById('setup-overlay').classList.remove('hidden')" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);cursor:pointer;padding:0 13px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(253,251,249,0.6);display:inline-flex;align-items:center;transition:all 0.25s;">Settings</button>
+</header>
+
+<div class="container">
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab-slider" id="tab-slider"></div>
+    <button class="tab active" onclick="switchTab('audit')" id="tab-audit">Audit</button>
+    <button class="tab" onclick="switchTab('keeps')" id="tab-keeps">Keeps<span class="tab-count" id="tab-keeps-count"></span></button>
+    <button class="tab" onclick="switchTab('watchlist')" id="tab-watchlist">Watchlist<span class="tab-count" id="tab-wl-count"></span><span class="tab-badge" id="wl-badge" style="display:none;"></span></button>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero" id="hero">
+    <div class="hero-eyebrow">Your Wardrobe, Refined</div>
+    <div class="hero-title">A thoughtful second opinion<br>for the pieces you own.</div>
+  </div>
+
+  <!-- ── AUDIT PANEL ── -->
+  <div class="panel active" id="panel-audit">
+    <div id="upload-zone" class="uz" onclick="document.getElementById('file-input').click()" ondragover="ev=>{ev.preventDefault();document.getElementById('upload-zone').classList.add('drag');}" ondragleave="document.getElementById('upload-zone').classList.remove('drag')" ondrop="handleDrop(event)">
+      <div class="uz-icon">✦</div>
+      <div class="uz-title">Upload a Piece</div>
+      <div class="uz-verbs">Keep &nbsp;·&nbsp; Tailor &nbsp;·&nbsp; Replace &nbsp;·&nbsp; Reconsider</div>
+      <div class="uz-begin">Begin your wardrobe audit</div>
+      <div class="uz-sub">Flat lay, hanger, or worn on-body.</div>
+    </div>
+    <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
+    <div id="preview-wrap" class="preview-wrap" style="display:none;">
+      <img id="preview-img" class="preview-img" src="" alt="Preview">
+      <button class="preview-clear" onclick="clearPreview()">✕</button>
+    </div>
+
+    <div id="context-form">
+      <div class="slabel">Context</div>
+      <div class="ctx-prompt">
+        <div class="ctx-prompt-title">What should I know?</div>
+        <div class="ctx-prompt-sub">Optional details that may improve your audit.</div>
+      </div>
+      <textarea id="ctx-note" placeholder="I love this piece but rarely reach for it…"></textarea>
+
+      <!-- Metadata — revealed once a photo is uploaded -->
+      <div class="ctx-meta" id="ctx-meta">
+        <div class="ctx-grid">
+          <div class="field"><label>Item name</label><input type="text" id="ctx-name" placeholder="e.g. Ivory wrap midi dress"></div>
+          <div class="field"><label>Category</label>
+            <select id="ctx-cat">
+              <option value="">— select —</option>
+              <option>Tops</option><option>Dresses</option><option>Skirts</option>
+              <option>Trousers / Pants</option><option>Outerwear</option>
+              <option>Knitwear</option><option>Shoes</option><option>Bags</option><option>Accessories</option>
+            </select>
+          </div>
+          <div class="field"><label>How often worn</label>
+            <select id="ctx-worn">
+              <option value="">— not sure —</option>
+              <option>Regularly</option><option>Occasionally</option><option>Rarely</option><option>Never</option>
+            </select>
+          </div>
+          <div class="field"><label>Visible condition</label>
+            <select id="ctx-cond">
+              <option value="">— not sure —</option>
+              <option>Excellent</option><option>Good</option><option>Fair</option><option>Poor</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-p" id="audit-btn" onclick="runAudit()">
+      <div class="bt">Audit this piece <span class="bt-mark">→</span></div>
+      <div class="li"></div>
+    </button>
+
+    <!-- Result -->
+    <div id="result-wrap">
+      <div class="slabel" style="margin-top:30px;">Verdict</div>
+      <div id="verdict-card" class="verdict-card">
+        <div id="verdict-badge" class="verdict-badge"></div>
+        <div id="verdict-headline" class="verdict-headline"></div>
+        <div id="verdict-reason" class="verdict-reason"></div>
+        <div class="score-row" id="score-row"></div>
+        <div class="styling-section" id="styling-section" style="display:none;">
+          <div class="styling-title">How to wear it</div>
+          <div class="styling-grid" id="styling-grid"></div>
+        </div>
+      </div>
+
+      <!-- Reason field for trim/toss -->
+      <div id="reason-field-wrap" class="reason-field-wrap" style="display:none;">
+        <div class="rf-title" id="rf-title">Why are you letting this go?</div>
+        <textarea id="user-reason" placeholder="e.g. Colour is too warm for my skin tone, never reach for it…"></textarea>
+      </div>
+
+      <div class="result-actions" id="result-actions"></div>
+
+      <!-- Conversation with your stylist -->
+      <div id="chat-section" class="chat-section" style="display:none;">
+        <div class="slabel" style="margin-top:28px;">Discuss</div>
+        <div class="chat-intro">Push back, ask questions, or explore alternatives. Your stylist is listening.</div>
+        <div class="chat-thread" id="chat-thread"></div>
+        <div class="chat-input-wrap">
+          <textarea id="chat-input" class="chat-input" placeholder="I actually wear this more than you'd think…" rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+          <button class="chat-send" id="chat-send" onclick="sendChat()">→</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KEEPS PANEL ── -->
+  <div class="panel" id="panel-keeps">
+    <div class="list-head">
+      <div><h2>Keeps</h2><div class="sub" id="keeps-sub">Pieces that earned their place.</div></div>
+      <button class="btn-s" onclick="switchTab('audit')">+ Audit piece</button>
+    </div>
+    <div id="gaps-wrap" style="display:none;"></div>
+    <div class="stats-row" id="stats-row" style="display:none;">
+      <div class="stat-tile keep-tile"><div class="stat-val" id="st-keep">0</div><div class="stat-label">Keeps</div></div>
+      <div class="stat-tile trim-tile"><div class="stat-val" id="st-trim">0</div><div class="stat-label">Watchlist</div></div>
+      <div class="stat-tile toss-tile"><div class="stat-val" id="st-toss">0</div><div class="stat-label">Tossed</div></div>
+    </div>
+    <div id="pill-filters" class="pill-filters"></div>
+    <div id="keeps-list-wrap"></div>
+  </div>
+
+  <!-- ── WATCHLIST PANEL ── -->
+  <div class="panel" id="panel-watchlist">
+    <div class="list-head">
+      <div><h2>Watchlist</h2><div class="sub">Pieces on trial. Resolve or escalate.</div></div>
+      <button class="btn-s" onclick="switchTab('audit')">+ Audit piece</button>
+    </div>
+    <div id="watchlist-wrap"></div>
+  </div>
+</div>
+
+<!-- Detail sheet -->
+<div class="sheet" id="detail-sheet" onclick="ev=>{if(ev.target===this)closeSheet();}">
+  <div class="sheet-inner">
+    <div class="sheet-bar">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title" id="sheet-title">Detail</div>
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let _sb=null, _img=null, _lastResult=null, _apiKey='';
+let _keeps=[], _watchlist=[], _tossCount=0;
+let _activeFilter='All', _gapsGenerated=false;
+let _chatHistory=[], _chatSysPrompt='';
+
+// ── SETUP ──
+function saveSetup(){
+  const ak=document.getElementById('api-key').value.trim();
+  if(ak){localStorage.setItem('ysl_edit_api_key',ak);_apiKey=ak;}
+  else{localStorage.removeItem('ysl_edit_api_key');_apiKey='';}
+  const url=document.getElementById('sb-url').value.trim();
+  const key=document.getElementById('sb-key').value.trim();
+  if(url&&key){
+    localStorage.setItem('ysl_edit_sb_url',url);
+    localStorage.setItem('ysl_edit_sb_key',key);
+    initSupabase(url,key);
+    loadAll();
+    showToast('Cloud sync connected ✓');
+  }else{
+    showToast('Running on-device only');
+  }
+  localStorage.setItem('ysl_edit_skipped','1');
+  document.getElementById('setup-overlay').classList.add('hidden');
+}
+function skipSetup(){
+  localStorage.setItem('ysl_edit_skipped','1');
+  document.getElementById('setup-overlay').classList.add('hidden');
+}
+function initSupabase(url,key){
+  try{_sb=supabase.createClient(url,key);}catch(e){console.error(e);}
+}
+// ── LOCAL PERSISTENCE (fallback + cache) ──
+function persistLocal(){
+  try{
+    localStorage.setItem('ysl_edit_keeps',JSON.stringify(_keeps));
+    localStorage.setItem('ysl_edit_watchlist',JSON.stringify(_watchlist));
+    localStorage.setItem('ysl_edit_toss_count',String(_tossCount));
+  }catch(e){console.warn('Local persist failed (storage full?)',e);}
+}
+function loadLocal(){
+  try{
+    _keeps=JSON.parse(localStorage.getItem('ysl_edit_keeps')||'[]');
+    _watchlist=JSON.parse(localStorage.getItem('ysl_edit_watchlist')||'[]');
+    _tossCount=parseInt(localStorage.getItem('ysl_edit_toss_count')||'0',10)||0;
+  }catch(e){_keeps=[];_watchlist=[];_tossCount=0;}
+}
+// ── API ROUTING: direct (GitHub Pages) if key saved, else Netlify proxy ──
+function apiCall(body){
+  if(_apiKey){
+    return fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':_apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify(body)
+    });
+  }
+  return fetch('/.netlify/functions/anthropic',{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)
+  });
+}
+(function init(){
+  _apiKey=localStorage.getItem('ysl_edit_api_key')||'';
+  if(_apiKey)document.getElementById('api-key').value=_apiKey;
+  const url=localStorage.getItem('ysl_edit_sb_url')||'';
+  const key=localStorage.getItem('ysl_edit_sb_key')||'';
+  if(url)document.getElementById('sb-url').value=url;
+  if(key)document.getElementById('sb-key').value=key;
+  loadLocal();
+  updateWlBadge();
+  const configured=(url&&key)||localStorage.getItem('ysl_edit_skipped')==='1';
+  if(configured){document.getElementById('setup-overlay').classList.add('hidden');}
+  if(url&&key){initSupabase(url,key);loadAll();}
+})();
+
+async function loadAll(){
+  if(!_sb)return;
+  try{
+    const [{data:k},{data:w}]=await Promise.all([
+      _sb.from('keeps').select('*').order('created_at',{ascending:false}),
+      _sb.from('watchlist').select('*').order('created_at',{ascending:false})
+    ]);
+    if(k)_keeps=k;
+    if(w)_watchlist=w;
+    persistLocal();
+    updateWlBadge();
+  }catch(e){console.error(e);}
+}
+
+// ── TABS ──
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  document.getElementById('panel-'+t).classList.add('active');
+  moveSlider();
+  if(t==='keeps')renderKeeps();
+  if(t==='watchlist')renderWatchlist();
+}
+function moveSlider(){
+  const active=document.querySelector('.tab.active');
+  const slider=document.getElementById('tab-slider');
+  if(active&&slider){slider.style.width=active.offsetWidth+'px';slider.style.transform=`translateX(${active.offsetLeft-5}px)`;}
+}
+window.addEventListener('load',moveSlider);
+window.addEventListener('resize',moveSlider);
+
+// ── UPLOAD ──
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/'))return;
+  const r=new FileReader();
+  r.onload=e=>{
+    downscaleImage(e.target.result,1000,0.82).then(d=>{
+      _img={base64:d.dataUrl.split(',')[1],type:d.type,dataUrl:d.dataUrl};
+      afterImageLoad();
+    });
+  };
+  r.readAsDataURL(file);
+}
+function afterImageLoad(){
+  document.getElementById('preview-img').src=_img.dataUrl;
+  document.getElementById('preview-wrap').style.display='block';
+  document.getElementById('upload-zone').style.display='none';
+  document.getElementById('result-wrap').style.display='none';
+  document.getElementById('ctx-meta').classList.add('show');
+}
+function downscaleImage(dataUrl,maxDim,quality){
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(Math.max(w,h)>maxDim){const sc=maxDim/Math.max(w,h);w=Math.round(w*sc);h=Math.round(h*sc);}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      res({dataUrl:c.toDataURL('image/jpeg',quality),type:'image/jpeg'});
+    };
+    img.onerror=()=>res({dataUrl,type:'image/jpeg'});
+    img.src=dataUrl;
+  });
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('drag');
+  const file=e.dataTransfer.files[0];
+  if(file)handleFile(file);
+}
+function clearPreview(){
+  _img=null;
+  document.getElementById('preview-wrap').style.display='none';
+  document.getElementById('upload-zone').style.display='flex';
+  document.getElementById('result-wrap').style.display='none';
+  document.getElementById('file-input').value='';
+  document.getElementById('ctx-meta').classList.remove('show');
+}
+function toggleContext(){/* context always visible */}
+
+// ── AUDIT ──
+async function runAudit(){
+  if(!_img){showToast('Upload a photo first');return;}
+  const btn=document.getElementById('audit-btn');
+  btn.classList.add('loading');btn.disabled=true;
+  document.getElementById('result-wrap').style.display='none';
+
+  const name=document.getElementById('ctx-name').value.trim();
+  const cat=document.getElementById('ctx-cat').value;
+  const worn=document.getElementById('ctx-worn').value;
+  const cond=document.getElementById('ctx-cond').value;
+  const note=document.getElementById('ctx-note').value.trim();
+  const ctx=[];
+  if(name)ctx.push(`Item: ${name}`);
+  if(cat)ctx.push(`Category: ${cat}`);
+  if(worn)ctx.push(`How often worn: ${worn}`);
+  if(cond)ctx.push(`Self-reported condition: ${cond}`);
+  if(note)ctx.push(`Her note: "${note}"`);
+
+  const sys=`You are YSL Closet Audit — a wardrobe editor for Yi Wen.
+
+PROFILE:
+- Colour season: Light Summer (cool undertone). Best: dusty blue, soft lavender, muted pink, sage, soft grey, cool beige, muted rose, powder blue. Avoid: neon, orange, yellow, warm browns, harsh black/white, high saturation.
+- Body: Hourglass 88-62-88 at 157cm. Best: waist-defining, wrap, A-line, fitted/belted, square/sleeveless necklines, mini/midi. Avoid: babydoll, oversized, waist-hiding.
+- Aesthetic: Korean luxury minimalist, quiet luxury, refined modern feminine.
+
+SCORING (each 0–100):
+- conditionScore: fabric quality, pilling, wear, shape retention, stitching
+- colourScore: fit to Light Summer season
+- aestheticScore: fit to Korean luxury minimalist aesthetic + silhouette suitability
+
+VERDICT LOGIC:
+overall = conditionScore×0.33 + colourScore×0.33 + aestheticScore×0.34
+Keep  = overall ≥ 72 AND conditionScore ≥ 60
+Trim  = overall 50–71 OR conditionScore 40–59
+Toss  = overall < 50 OR conditionScore < 40
+
+For KEEP: provide pairings (2–3 specific pieces) and occasionsList (2–4 occasions).
+For TRIM/TOSS: provide a trimAdvice field — one sentence on what to do (e.g. "Consider alteration at the waist before deciding." or "Donate — the colour works against your undertone.").
+
+OUTPUT only valid JSON, no markdown fences:
+{
+  "verdict": "keep"|"trim"|"toss",
+  "headline": "max 8 words",
+  "reason": "2–3 sentences, specific to what you see",
+  "conditionScore": 0-100,
+  "colourScore": 0-100,
+  "aestheticScore": 0-100,
+  "overall": 0-100,
+  "pairings": "...",
+  "occasionsList": ["..."],
+  "trimAdvice": "...",
+  "itemName": "inferred name if not given"
+}`;
+
+  try{
+    const res=await apiCall({
+        model:'claude-sonnet-4-6',max_tokens:4000,system:sys,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:_img.type,data:_img.base64}},
+          {type:'text',text:ctx.length?`Audit this piece.\n${ctx.join('\n')}`:'Audit this piece.'}
+        ]}]
+      });
+    const d=await res.json();
+    if(d.error){showToast('API error: '+(d.error.message||d.error.type||'unknown'));btn.classList.remove('loading');btn.disabled=false;return;}
+    if(!d.content){showToast('API error: unexpected response');btn.classList.remove('loading');btn.disabled=false;return;}
+    let raw=d.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
+    const a=raw.indexOf('{'),b=raw.lastIndexOf('}');
+    if(a>=0&&b>a)raw=raw.slice(a,b+1);
+    const result=JSON.parse(raw);
+    result._name=name||result.itemName||'Untitled piece';
+    result._cat=cat||'';
+    result._img=_img.dataUrl;
+    _lastResult=result;
+    renderResult(result);
+  }catch(e){console.error(e);showToast('Something went wrong — try again');}
+  btn.classList.remove('loading');btn.disabled=false;
+}
+
+function renderResult(r){
+  const vmap={
+    keep:{icon:'✦',label:'Keep',cls:'keep'},
+    trim:{icon:'◈',label:'Trim',cls:'trim'},
+    toss:{icon:'○',label:'Toss',cls:'toss'}
+  };
+  const v=vmap[r.verdict]||vmap.trim;
+  const card=document.getElementById('verdict-card');
+  card.className='verdict-card '+v.cls;
+  document.getElementById('verdict-badge').className='verdict-badge '+v.cls;
+  document.getElementById('verdict-badge').innerHTML=`<span class="verdict-icon">${v.icon}</span>${v.label}`;
+  document.getElementById('verdict-headline').textContent=r.headline;
+  document.getElementById('verdict-reason').textContent=r.reason;
+
+  const scores=[{label:'Overall',val:r.overall},{label:'Condition',val:r.conditionScore},{label:'Colour',val:r.colourScore},{label:'Aesthetic',val:r.aestheticScore}];
+  document.getElementById('score-row').innerHTML=scores.map(s=>`<div class="score-pill"><span class="sp-label">${s.label}</span><span class="sp-val">${Math.round(s.val)}</span></div>`).join('');
+
+  // Styling for keeps
+  const ss=document.getElementById('styling-section');
+  if(r.verdict==='keep'&&(r.pairings||r.occasionsList)){
+    ss.style.display='block';
+    let g='';
+    if(r.pairings)g+=`<div class="style-block"><div class="style-block-label">Pair with</div><div class="style-block-content">${escHTML(r.pairings)}</div></div>`;
+    if(r.occasionsList&&r.occasionsList.length){
+      const tags=r.occasionsList.map(o=>`<span class="occ-tag">${escHTML(String(o))}</span>`).join('');
+      g+=`<div class="style-block"><div class="style-block-label">Wears well for</div><div class="occasions-list">${tags}</div></div>`;
+    }
+    document.getElementById('styling-grid').innerHTML=g;
+  }else{
+    ss.style.display='none';
+    // Show trim advice inline
+    if(r.trimAdvice){
+      document.getElementById('verdict-reason').textContent=r.reason+' '+r.trimAdvice;
+    }
+  }
+
+  // Reason field for trim/toss
+  const rfw=document.getElementById('reason-field-wrap');
+  const rft=document.getElementById('rf-title');
+  if(r.verdict==='trim'||r.verdict==='toss'){
+    rfw.style.display='block';
+    rft.textContent=r.verdict==='trim'?'Why is it on trial?':'Why are you letting this go?';
+    document.getElementById('user-reason').value='';
+  }else{rfw.style.display='none';}
+
+  // Actions
+  const actions=document.getElementById('result-actions');
+  if(r.verdict==='keep'){
+    actions.innerHTML=`
+      <button class="btn-p" onclick="saveKeep()"><div class="bt">Save to Keeps <span class="bt-mark">✦</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+  }else if(r.verdict==='trim'){
+    actions.innerHTML=`
+      <button class="btn-p" onclick="saveWatchlist()"><div class="bt">Add to Watchlist <span class="bt-mark">◈</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+  }else{
+    actions.innerHTML=`
+      <button class="btn-p" style="background:linear-gradient(180deg,#5c2228,#3d1518);" onclick="confirmToss()"><div class="bt">Confirm Toss <span class="bt-mark">○</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+  }
+
+  document.getElementById('result-wrap').style.display='block';
+  setTimeout(()=>document.getElementById('result-wrap').scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+
+  // Initialize conversation
+  document.getElementById('chat-section').style.display='block';
+  document.getElementById('chat-thread').innerHTML='';
+  document.getElementById('chat-input').value='';
+  _chatHistory=[];
+  _chatSysPrompt=`You are YSL Closet Audit — a private wardrobe stylist for Yi Wen.
+
+PROFILE: Light Summer colour season (cool undertone), hourglass 88-62-88 at 157cm, Korean luxury minimalist / quiet luxury aesthetic.
+
+You just audited a piece and gave this verdict:
+Verdict: ${r.verdict.toUpperCase()}
+Overall: ${r.overall} | Condition: ${r.conditionScore} | Colour: ${r.colourScore} | Aesthetic: ${r.aestheticScore}
+Headline: ${r.headline}
+Reason: ${r.reason}
+${r.pairings?'Pairings: '+r.pairings:''}
+${r.trimAdvice?'Trim advice: '+r.trimAdvice:''}
+
+She's now pushing back or asking questions. Engage as a thoughtful private stylist — direct, warm, opinionated but open to persuasion. If she makes a genuinely good case, you can revise your verdict.
+
+IMPORTANT: If you revise your verdict, include at the very end of your message on its own line:
+REVISED_VERDICT: keep|trim|toss
+
+Keep responses concise (2-4 sentences). Be conversational, not clinical.`;
+}
+
+function startNew(){clearPreview();document.getElementById('result-wrap').style.display='none';document.getElementById('chat-section').style.display='none';document.getElementById('chat-thread').innerHTML='';_chatHistory=[];document.getElementById('ctx-note').value='';document.getElementById('ctx-name').value='';document.getElementById('ctx-cat').value='';document.getElementById('ctx-worn').value='';document.getElementById('ctx-cond').value='';}
+
+// ── SAVE KEEP ──
+async function saveKeep(){
+  if(!_lastResult||_lastResult.verdict!=='keep')return;
+  const r=_lastResult;
+  const item={name:r._name,category:r._cat,verdict:'keep',score:Math.round(r.overall),condition_score:Math.round(r.conditionScore),colour_score:Math.round(r.colourScore),aesthetic_score:Math.round(r.aestheticScore),headline:r.headline,reason:r.reason,pairings:r.pairings||'',occasions_list:r.occasionsList?r.occasionsList.join(', '):'',image_b64:r._img||''};
+  let saved={...item,id:'local-'+Date.now(),created_at:new Date().toISOString()};
+  if(_sb){try{const{data,error}=await _sb.from('keeps').insert([item]).select();if(error)throw error;if(data&&data[0])saved=data[0];}catch(e){console.error(e);showToast('Cloud save failed — kept on device');}}
+  _keeps.unshift(saved);
+  persistLocal();
+  _gapsGenerated=false;
+  updateWlBadge();
+  showToast('Saved to keeps ✦');
+  const btn=document.querySelector('#result-actions .btn-p');
+  if(btn){btn.innerHTML='<div class="bt">Saved ✦</div>';btn.disabled=true;}
+}
+
+// ── SAVE WATCHLIST ──
+async function saveWatchlist(){
+  if(!_lastResult||_lastResult.verdict!=='trim')return;
+  const r=_lastResult;
+  const userReason=document.getElementById('user-reason').value.trim();
+  const item={name:r._name,category:r._cat,verdict:'trim',score:Math.round(r.overall),condition_score:Math.round(r.conditionScore),colour_score:Math.round(r.colourScore),aesthetic_score:Math.round(r.aestheticScore),headline:r.headline,reason:r.reason,user_reason:userReason,image_b64:r._img||''};
+  let saved={...item,id:'local-'+Date.now(),created_at:new Date().toISOString()};
+  if(_sb){try{const{data,error}=await _sb.from('watchlist').insert([item]).select();if(error)throw error;if(data&&data[0])saved=data[0];}catch(e){console.error(e);showToast('Cloud save failed — kept on device');}}
+  _watchlist.unshift(saved);
+  persistLocal();
+  updateWlBadge();
+  showToast('Added to watchlist ◈');
+  const btn=document.querySelector('#result-actions .btn-p');
+  if(btn){btn.innerHTML='<div class="bt">On Watchlist ◈</div>';btn.disabled=true;}
+}
+
+// ── CONFIRM TOSS ──
+function confirmToss(){
+  _tossCount++;
+  persistLocal();
+  showToast('Gone ○');
+  const btn=document.querySelector('#result-actions .btn-p');
+  if(btn){btn.innerHTML='<div class="bt">Tossed ○</div>';btn.disabled=true;}
+}
+
+// ── WATCHLIST BADGE ──
+function updateWlBadge(){
+  const b=document.getElementById('wl-badge');
+  const n=_watchlist.length;
+  if(n>0){b.textContent=n;b.style.display='inline-flex';}
+  else{b.style.display='none';}
+  // Update tab counts
+  const kc=document.getElementById('tab-keeps-count');
+  const wc=document.getElementById('tab-wl-count');
+  if(kc)kc.textContent=_keeps.length?` · ${_keeps.length}`:'';
+  if(wc)wc.textContent=_watchlist.length?` · ${_watchlist.length}`:'';
+}
+
+// ── RENDER KEEPS ──
+function renderKeeps(){
+  const totalAudited=_keeps.length+_watchlist.length+_tossCount;
+  const showStats=totalAudited>0;
+  document.getElementById('stats-row').style.display=showStats?'grid':'none';
+  document.getElementById('st-keep').textContent=_keeps.length;
+  document.getElementById('st-trim').textContent=_watchlist.length;
+  document.getElementById('st-toss').textContent=_tossCount;
+  document.getElementById('keeps-sub').textContent=_keeps.length?`${_keeps.length} piece${_keeps.length!==1?'s':''} that earned their place.`:'Pieces that earned their place.';
+
+  // Gaps insight (after 5+ total audited)
+  const gapsWrap=document.getElementById('gaps-wrap');
+  if(totalAudited>=5&&_keeps.length>=2){
+    if(!_gapsGenerated){gapsWrap.style.display='block';gapsWrap.innerHTML=gapsInsightHTML(true);generateGaps();}
+    else{gapsWrap.style.display='block';}
+  }else{gapsWrap.style.display='none';}
+
+  // Pills
+  const cats=['All',...new Set(_keeps.map(k=>k.category).filter(Boolean))];
+  document.getElementById('pill-filters').innerHTML=cats.length>1?cats.map(c=>`<span class="pill${c===_activeFilter?' active':''}" onclick="setFilter('${c}')">${c}</span>`).join(''):'';
+
+  const filtered=_activeFilter==='All'?_keeps:_keeps.filter(k=>k.category===_activeFilter);
+  const wrap=document.getElementById('keeps-list-wrap');
+  if(!filtered.length){
+    wrap.innerHTML=`<div class="empty-state"><div class="empty-mark">c</div><p>${_keeps.length?'No pieces in this category yet.':'Audit your first piece and save the keeps here.'}</p></div>`;
+    return;
+  }
+  wrap.innerHTML=`<div class="items-list">${filtered.map(k=>itemCardHTML(k,'keep')).join('')}</div>`;
+}
+function setFilter(c){_activeFilter=c;renderKeeps();}
+
+// ── RENDER WATCHLIST ──
+function renderWatchlist(){
+  const wrap=document.getElementById('watchlist-wrap');
+  if(!_watchlist.length){
+    wrap.innerHTML=`<div class="empty-state"><div class="empty-mark">◈</div><p>No pieces on trial. When something scores Trim, it lands here for a 30-day review.</p></div>`;
+    return;
+  }
+  wrap.innerHTML=`<div class="items-list">${_watchlist.map(w=>itemCardHTML(w,'watchlist')).join('')}</div>`;
+}
+
+// ── ITEM CARD ── (shared for keeps + watchlist)
+function itemCardHTML(item,type){
+  const thumb=item.image_b64?`<img class="item-thumb" src="${item.image_b64}" alt="${item.name}">`:`<div class="item-thumb-ph">${type==='keep'?'✦':'◈'}</div>`;
+  const id=String(item.id||item.created_at);
+  let meta=`<span>${item.score||'—'}</span>`;
+  if(item.category)meta+=`<span class="dot">·</span><span>${item.category}</span>`;
+
+  let extra='';
+  if(type==='watchlist'){
+    if(item.user_reason)extra+=`<div class="watchlist-reason">"${escHTML(item.user_reason)}"</div>`;
+    const days=item.created_at?Math.floor((Date.now()-new Date(item.created_at))/(86400000)):0;
+    const remaining=Math.max(0,30-days);
+    const urgency=remaining<=7?'urgent':'';
+    extra+=`<div class="watchlist-date"><span class="days-badge ${urgency}">${remaining}d left</span></div>`;
+  }
+
+  let actions='';
+  if(type==='keep'){
+    actions=`<button class="btn-g" onclick="event.stopPropagation();removeItem('keep','${id}')">Remove</button>`;
+  }else{
+    actions=`
+      <button class="btn-g" onclick="event.stopPropagation();escalateToKeep('${id}')">Keep</button>
+      <button class="btn-toss" onclick="event.stopPropagation();escalateToToss('${id}')">Toss</button>`;
+  }
+
+  return`<div class="item-card" onclick="openDetail('${type}','${id}')">
+    ${thumb}
+    <div class="item-body">
+      <div class="item-name">${escHTML(item.name||'Untitled')}</div>
+      <div class="item-meta">${meta}</div>
+      ${extra}
+    </div>
+    <div class="item-actions">${actions}</div>
+  </div>`;
+}
+
+// ── WATCHLIST RESOLUTION ──
+async function escalateToKeep(id){
+  const item=_watchlist.find(w=>String(w.id||w.created_at)===id);
+  if(!item)return;
+  item.verdict='keep';
+  _keeps.unshift(item);
+  _watchlist=_watchlist.filter(w=>String(w.id||w.created_at)!==id);
+  if(_sb){
+    try{
+      const{id,created_at,...rest}=item;
+      const ops=[_sb.from('keeps').insert([{...rest,verdict:'keep'}]).select()];
+      if(!String(id).startsWith('local-'))ops.push(_sb.from('watchlist').delete().eq('id',id));
+      const[ins]=await Promise.all(ops);
+      if(ins&&ins.data&&ins.data[0]){const idx=_keeps.indexOf(item);if(idx>-1)_keeps[idx]=ins.data[0];}
+    }catch(e){console.error(e);}
+  }
+  persistLocal();
+  updateWlBadge();renderWatchlist();showToast('Moved to keeps ✦');
+}
+async function escalateToToss(id){
+  _watchlist=_watchlist.filter(w=>String(w.id||w.created_at)!==id);
+  _tossCount++;
+  if(_sb&&!String(id).startsWith('local-')){try{await _sb.from('watchlist').delete().eq('id',id);}catch(e){}}
+  persistLocal();
+  updateWlBadge();renderWatchlist();showToast('Gone ○');
+}
+async function removeItem(type,id){
+  if(type==='keep'){
+    _keeps=_keeps.filter(k=>String(k.id||k.created_at)!==id);
+    if(_sb&&!String(id).startsWith('local-')){try{await _sb.from('keeps').delete().eq('id',id);}catch(e){}}
+    persistLocal();
+    updateWlBadge();
+    renderKeeps();
+  }
+  showToast('Removed');
+}
+
+// ── DETAIL SHEET ──
+function openDetail(type,id){
+  const list=type==='keep'?_keeps:_watchlist;
+  const item=list.find(i=>String(i.id||i.created_at)===id);
+  if(!item)return;
+  document.getElementById('sheet-title').textContent=item.name||'Detail';
+  let body='';
+  if(item.image_b64)body+=`<img src="${item.image_b64}" style="width:100%;max-height:280px;object-fit:contain;border-radius:14px;border:1px solid rgba(155,123,138,0.12);box-shadow:var(--shadow-md);margin-bottom:18px;">`;
+  const badge=type==='keep'?'keep':'trim';
+  const icon=type==='keep'?'✦':'◈';
+  body+=`<div class="verdict-badge ${badge}" style="margin-bottom:12px;"><span class="verdict-icon">${icon}</span>${type==='keep'?'Keep':'Watchlist'}</div>`;
+  body+=`<div style="font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;margin-bottom:8px;">${escHTML(item.headline||item.name||'')}</div>`;
+  body+=`<div style="font-size:13px;color:var(--slate);line-height:1.7;margin-bottom:14px;">${escHTML(item.reason||'')}</div>`;
+  const scores=[{l:'Overall',v:item.score},{l:'Condition',v:item.condition_score},{l:'Colour',v:item.colour_score},{l:'Aesthetic',v:item.aesthetic_score}];
+  body+=`<div class="score-row">${scores.filter(s=>s.v).map(s=>`<div class="score-pill"><span class="sp-label">${s.l}</span><span class="sp-val">${s.v}</span></div>`).join('')}</div>`;
+  if(item.pairings)body+=`<div style="margin-top:16px;"><div class="styling-title">Pair with</div><div class="style-block"><div class="style-block-content">${escHTML(item.pairings)}</div></div></div>`;
+  if(item.occasions_list){const tags=item.occasions_list.split(',').map(o=>`<span class="occ-tag">${o.trim()}</span>`).join('');body+=`<div style="margin-top:12px;"><div class="styling-title">Wears well for</div><div class="occasions-list">${tags}</div></div>`;}
+  if(item.user_reason)body+=`<div style="margin-top:16px;"><div class="styling-title">Why it's on trial</div><div class="style-block"><div class="style-block-content" style="font-style:italic;color:var(--slate);">"${escHTML(item.user_reason)}"</div></div></div>`;
+  document.getElementById('sheet-body').innerHTML=body;
+  document.getElementById('detail-sheet').classList.add('open');
+}
+function closeSheet(){document.getElementById('detail-sheet').classList.remove('open');}
+
+// ── GAPS INSIGHT ──
+function gapsInsightHTML(loading){
+  return`<div class="gaps-insight">
+    <div class="gi-header">
+      <div class="gi-label">Wardrobe Gaps</div>
+      ${!loading?`<span class="gi-refresh" onclick="generateGaps()">Refresh</span>`:''}
+    </div>
+    <div class="gi-content" id="gi-text">${loading?'<span class="gi-loading">Analysing your wardrobe…</span>':''}</div>
+  </div>`;
+}
+
+async function generateGaps(){
+  const el=document.getElementById('gi-text');
+  if(!el)return;
+  el.innerHTML='<span class="gi-loading">Analysing your wardrobe…</span>';
+  const keepsData=_keeps.map(k=>`${k.name||'Untitled'}${k.category?` (${k.category})`:''}`).join(', ');
+  const sys=`You are YSL Closet Audit — a wardrobe editor for Yi Wen.
+PROFILE: Light Summer colour season, hourglass figure 88-62-88 at 157cm, Korean luxury minimalist aesthetic, quiet luxury.
+Given her current keeps, identify 2–3 specific wardrobe gaps — pieces she likely needs but doesn't have yet. Be concrete and personal (reference her colour season and silhouette). Reply in 2–3 sentences, no bullet points, no preamble. Write in a direct editorial tone.`;
+  try{
+    const res=await apiCall({model:'claude-sonnet-4-6',max_tokens:500,system:sys,messages:[{role:'user',content:`Her current keeps: ${keepsData}`}]});
+    const d=await res.json();
+    if(!d.content)throw new Error(d.error&&d.error.message||'bad response');
+    const text=escHTML(d.content.map(c=>c.text||'').join('').trim());
+    if(el){el.innerHTML=text;_gapsGenerated=true;}
+    // Refresh button
+    const gapsWrap=document.getElementById('gaps-wrap');
+    if(gapsWrap)gapsWrap.innerHTML=gapsInsightHTML(false);
+    const newEl=document.getElementById('gi-text');
+    if(newEl)newEl.innerHTML=text;
+  }catch(e){if(el)el.innerHTML='Unable to generate gaps insight.';}
+}
+
+// ── CHAT / DISCUSSION ──
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value='';
+  autoResize(input);
+
+  const thread=document.getElementById('chat-thread');
+  // User message
+  thread.innerHTML+=`<div class="chat-msg user"><div class="chat-msg-label">You</div><div class="chat-msg-inner">${escHTML(msg)}</div></div>`;
+  // Typing indicator
+  thread.innerHTML+=`<div class="chat-msg stylist chat-typing" id="chat-typing"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  thread.scrollTop=thread.scrollHeight;
+
+  _chatHistory.push({role:'user',content:msg});
+  document.getElementById('chat-send').disabled=true;
+
+  try{
+    const messages=[..._chatHistory];
+    // Include the image in the first user message for context
+    if(_img&&messages.length===1){
+      messages[0]={role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:_img.type,data:_img.base64}},
+        {type:'text',text:msg}
+      ]};
+    }
+    const res=await apiCall({model:'claude-sonnet-4-6',max_tokens:600,system:_chatSysPrompt,messages});
+    const d=await res.json();
+    if(!d.content)throw new Error(d.error&&d.error.message||'bad response');
+    let text=d.content.map(c=>c.text||'').join('').trim();
+
+    // Check for revised verdict
+    let revisedVerdict=null;
+    const vMatch=text.match(/REVISED_VERDICT:\s*(keep|trim|toss)/i);
+    if(vMatch){
+      revisedVerdict=vMatch[1].toLowerCase();
+      text=text.replace(/REVISED_VERDICT:\s*(keep|trim|toss)/gi,'').trim();
+      // Update last result
+      if(_lastResult)_lastResult.verdict=revisedVerdict;
+      updateActionsForVerdict(revisedVerdict);
+    }
+
+    _chatHistory.push({role:'assistant',content:text});
+
+    // Remove typing
+    const typ=document.getElementById('chat-typing');
+    if(typ)typ.remove();
+
+    // Render stylist reply
+    let replyHTML=`<div class="chat-msg stylist"><div class="chat-msg-label">Your stylist</div><div class="chat-msg-inner">${formatChat(text)}`;
+    if(revisedVerdict){
+      const vmap={keep:'✦ Keep',trim:'◈ Trim',toss:'○ Toss'};
+      replyHTML+=`<div class="chat-revised ${revisedVerdict}">${vmap[revisedVerdict]||revisedVerdict} — Verdict revised</div>`;
+    }
+    replyHTML+=`</div></div>`;
+    thread.innerHTML+=replyHTML;
+    thread.scrollTop=thread.scrollHeight;
+  }catch(e){
+    console.error(e);
+    const typ=document.getElementById('chat-typing');
+    if(typ)typ.remove();
+    thread.innerHTML+=`<div class="chat-msg stylist"><div class="chat-msg-label">Your stylist</div><div class="chat-msg-inner" style="color:var(--slate-soft);font-style:italic;">Something went wrong — try again.</div></div>`;
+  }
+  document.getElementById('chat-send').disabled=false;
+  document.getElementById('chat-input').focus();
+}
+
+function updateActionsForVerdict(v){
+  const actions=document.getElementById('result-actions');
+  if(v==='keep'){
+    actions.innerHTML=`
+      <button class="btn-p" onclick="saveKeep()"><div class="bt">Save to Keeps <span class="bt-mark">✦</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+    document.getElementById('reason-field-wrap').style.display='none';
+  }else if(v==='trim'){
+    actions.innerHTML=`
+      <button class="btn-p" onclick="saveWatchlist()"><div class="bt">Add to Watchlist <span class="bt-mark">◈</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+    document.getElementById('reason-field-wrap').style.display='block';
+    document.getElementById('rf-title').textContent='Why is it on trial?';
+  }else{
+    actions.innerHTML=`
+      <button class="btn-p" style="background:linear-gradient(180deg,#5c2228,#3d1518);" onclick="confirmToss()"><div class="bt">Confirm Toss <span class="bt-mark">○</span></div><div class="li"></div></button>
+      <button class="btn-s" onclick="startNew()">New</button>`;
+    document.getElementById('reason-field-wrap').style.display='block';
+    document.getElementById('rf-title').textContent='Why are you letting this go?';
+  }
+}
+
+function escHTML(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function formatChat(t){return t.split('\n').filter(l=>l.trim()).map(l=>`<p>${escHTML(l)}</p>`).join('');}
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+document.addEventListener('DOMContentLoaded',()=>{
+  const ci=document.getElementById('chat-input');
+  if(ci)ci.addEventListener('input',function(){autoResize(this);});
+});
+
+// ── TOAST ──
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+</script>
+</body></html>
