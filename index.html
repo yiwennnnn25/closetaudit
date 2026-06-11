@@ -299,7 +299,7 @@ textarea{resize:vertical;min-height:72px;font-size:13px;}
 .list-head h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;letter-spacing:0.01em;line-height:1;}
 .list-head .sub{font-size:11px;color:var(--slate);margin-top:5px;}
 .empty-state{text-align:center;padding:48px 24px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px dashed rgba(155,123,138,0.30);border-radius:18px;}
-.empty-mark{width:44px;height:44px;border-radius:13px;margin:0 auto 12px;background:linear-gradient(135deg,#DDD0E8,#C9B8D8);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(180,155,200,0.22),inset 0 1px 0 rgba(255,255,255,0.8);font-family:'Cormorant Garamond',serif;font-size:20px;color:rgba(90,60,100,0.65);font-style:italic;}
+.empty-mark{font-size:26px;color:var(--rose);opacity:0.6;margin:0 auto 10px;line-height:1;}
 .empty-state p{font-size:13px;color:var(--slate);font-style:italic;line-height:1.65;max-width:280px;margin:0 auto;}
 .items-list{display:flex;flex-direction:column;gap:10px;}
 
@@ -956,7 +956,7 @@ function renderKeeps(){
   const filtered=_activeFilter==='All'?_keeps:_keeps.filter(k=>k.category===_activeFilter);
   const wrap=document.getElementById('keeps-list-wrap');
   if(!filtered.length){
-    wrap.innerHTML=`<div class="empty-state"><div class="empty-mark">c</div><p>${_keeps.length?'No pieces in this category yet.':'Audit your first piece and save the keeps here.'}</p></div>`;
+    wrap.innerHTML=`<div class="empty-state"><div class="empty-mark">✦</div><p>${_keeps.length?'No pieces in this category yet.':'Audit your first piece and save the keeps here.'}</p></div>`;
     return;
   }
   wrap.innerHTML=`<div class="items-list">${filtered.map(k=>itemCardHTML(k,'keep')).join('')}</div>`;
