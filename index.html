@@ -84,7 +84,7 @@ header{
   background:linear-gradient(180deg,rgba(253,251,249,0.85),rgba(253,251,249,0.65));
   backdrop-filter:saturate(140%) blur(18px);-webkit-backdrop-filter:saturate(140%) blur(18px);
   border-bottom:1px solid rgba(155,123,138,0.10);
-  padding:16px 28px;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 22px;display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:100;
 }
 .brand{display:flex;align-items:center;gap:12px;}
@@ -94,7 +94,8 @@ header{
 .logo-sep{color:var(--rose-deep);font-style:italic;}
 .logo-sub{font-size:12px;letter-spacing:0.06em;color:var(--slate-soft);font-style:italic;}
 .tagline{font-size:9px;color:var(--slate-soft);letter-spacing:0.30em;text-transform:uppercase;margin-top:1px;}
-@media(max-width:520px){.tagline{display:none;}}
+.hdr-gear{width:34px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(253,251,249,0.6);color:var(--slate);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all 0.25s;}
+.hdr-gear:hover{color:var(--mauve-deep);border-color:var(--border-strong);}
 
 /* ── Container ── */
 .container{max-width:660px;margin:0 auto;padding:28px 24px 120px;}
@@ -115,7 +116,16 @@ header{
 .hero{text-align:center;padding:36px 16px 28px;}
 .hero-eyebrow{font-size:9.5px;letter-spacing:0.42em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:16px;opacity:0.85;}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;letter-spacing:0.03em;line-height:1.10;color:var(--deep);}
-@media(max-width:560px){.hero-title{font-size:32px;}.hero{padding:28px 12px 22px;}}
+@media(max-width:560px){
+  .hero{display:none;}
+  header{padding:10px 18px;}
+  .logo{font-size:18px;}
+  .brand-mark{width:28px;height:28px;}
+  .container{padding:16px 18px 110px;}
+  .uz{min-height:200px;padding:32px 24px;}
+  .uz-icon{margin-bottom:10px;}
+  .tab{padding:11px 8px;}
+}
 
 /* ── Section labels ── */
 .slabel{font-size:9px;letter-spacing:0.36em;text-transform:uppercase;color:var(--slate-soft);font-weight:500;margin-bottom:14px;margin-top:26px;opacity:0.75;}
@@ -388,14 +398,10 @@ create table watchlist (
 
 <!-- Header -->
 <header>
-  <div class="brand">
-    <div class="brand-mark">c</div>
-    <div class="brand-wordmark">
-      <div class="logo">YSL <span class="logo-sep">·</span> <span class="logo-sub">Closet Audit</span></div>
-      <div class="tagline">Your wardrobe, refined</div>
-    </div>
-  </div>
-  <button class="hdr-btn" onclick="document.getElementById('setup-overlay').classList.remove('hidden')" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);cursor:pointer;padding:0 13px;height:34px;border:1px solid var(--border);border-radius:9px;background:rgba(253,251,249,0.6);display:inline-flex;align-items:center;transition:all 0.25s;">Settings</button>
+  <div class="logo">YSL <span class="logo-sep">·</span> <span class="logo-sub">Closet Audit</span></div>
+  <button class="hdr-gear" aria-label="Settings" onclick="document.getElementById('setup-overlay').classList.remove('hidden')">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
 </header>
 
 <div class="container">
@@ -664,6 +670,7 @@ function handleFile(file){
   r.readAsDataURL(file);
 }
 function afterImageLoad(){
+  const hero=document.getElementById('hero');if(hero)hero.style.display='none';
   document.getElementById('preview-img').src=_img.dataUrl;
   document.getElementById('preview-wrap').style.display='block';
   document.getElementById('upload-zone').style.display='none';
@@ -692,6 +699,7 @@ function handleDrop(e){
 }
 function clearPreview(){
   _img=null;
+  const hero=document.getElementById('hero');if(hero)hero.style.display='';
   document.getElementById('preview-wrap').style.display='none';
   document.getElementById('upload-zone').style.display='flex';
   document.getElementById('result-wrap').style.display='none';
